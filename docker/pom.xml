@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>dhc.osgi.moqui</groupId>
+    <artifactId>dhc.osgi.moqui.docker</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>dhc.osgi.moqui.docker.base</artifactId>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-pavlov-moqui</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>dhc.osgi.ftth.control</groupId>
+                  <artifactId>dhc.osgi.ftth.control.moqui.pavlov</artifactId>
+                  <version>1.0.0-SNAPSHOT</version>
+                  <classifier>component</classifier>
+                  <type>tar.gz</type>
+                  <outputDirectory>${project.build.outputDirectory}/docker</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.pavlovmedia.maven</groupId>
+        <artifactId>com.pavlovmedia.maven.maven-docker-plugin</artifactId>
+        <configuration>
+          <containerName>${base.container.name}</containerName>
+          <dockerRepo>${docker.repo}</dockerRepo>
+          <verbose>true</verbose>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>Build</goal>
+              <goal>Tag</goal>
+              <goal>Deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
