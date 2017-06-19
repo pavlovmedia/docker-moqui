@@ -1,5 +1,5 @@
 FROM java:openjdk-8-jdk
-MAINTAINER Pavlov Media sdempsay@pavlovmedia.net
+MAINTAINER Shawn Dempsay <sdempsay@pavlovmedia.com>
 
 # Upgrade
 RUN apt-get update && apt-get upgrade -y
@@ -31,4 +31,4 @@ RUN ./gradlew getComponent -Pcomponent=mantle-ubpl
 RUN ./gradlew getComponent -Pcomponent=moqui-kie
 
 # Run Moqui
-CMD ./gradlew run
+CMD ./gradlew build load run
